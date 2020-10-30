@@ -52,7 +52,7 @@ private static void run(){
             convertTo = userEntry.readLine();
             
             message = amount+" "+currency+" "+convertTo;
-            System.out.println(message);
+// for testing            System.out.println(message);
             
 //            if (!message.equals("***CLOSE***")){//removing this bc close not rqstd
 
