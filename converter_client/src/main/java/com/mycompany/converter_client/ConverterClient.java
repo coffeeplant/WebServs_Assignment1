@@ -34,29 +34,31 @@ private static void run(){
         dgramSocket = new DatagramSocket();
         //Set up stream for user entry
         BufferedReader userEntry = new BufferedReader(new InputStreamReader(System.in));
-        String message = null;
+        String message;
         String response = null;
-
+        do{
             do{
-                try{
             //user message input**********
                 System.out.println("Enter amount to be converted: ");
                 amount = userEntry.readLine();
-                double number = Double.parseDouble(amount);
-                if (number != (double)){
-                    throw UserInputException;      
-            }
-                System.out.println("Enter currency to be converted: ");
-                currency = userEntry.readLine();
-                System.out.println("What currency to convert to? ");
-                convertTo = userEntry.readLine();
-            } 
-            catch (UserInputException e){
-                System.out.println(e.getUserInputException);
-            }
-            message = amount+" "+currency+" "+convertTo;
+                try{
+                    double number = Double.parseDouble(amount);
+                    }
+                     catch (NumberFormatException e){
+                         System.out.println("The amount needs to be numeric, please try again");
+                    }
+            }while(amount.equals(null));
+            
+            System.out.println("Enter currency to be converted: ");
+            currency = userEntry.readLine();
+            System.out.println("What currency to convert to? ");
+            convertTo = userEntry.readLine();
+        } while (amount.equals(null) && currency.equals(null) && convertTo.equals(null));
 //          System.out.println(message); for testing 
- }while{message.equals(null)};
+//System.out.println(message);
+            message = amount+" "+currency+" "+convertTo;
+ 
+    //while{message.equals(null)};
         //sending user msg and receiving response
             outPacket = new DatagramPacket(
                 message.getBytes(),
@@ -84,7 +86,7 @@ private static void run(){
     }
       finally {
         System.out.println("\n* Closing connection... *");
-        dgramSocket.close(); //Step 8
+        dgramSocket.close();
     }
 }
 }
