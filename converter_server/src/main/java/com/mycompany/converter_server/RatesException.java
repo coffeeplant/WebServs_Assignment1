@@ -9,20 +9,20 @@ package com.mycompany.converter_server;
  *
  * @author Bebhin
  */
-public class InputException extends Exception {
+public class RatesException extends Exception {
     
     protected String msg;
     
-    public InputException(){
+    public RatesException(){
         this.msg="Conversion rates not available!";
     }
     
-    public InputException (String msg){
+    public RatesException (String msg){
         super (msg);
         this.msg=msg;
     }
     
-    public String getInputExceptionMessage(){
+    public String getRatesExceptionMessage(){
         return this.msg;
     }
     

@@ -21,7 +21,6 @@ public class ConverterClient {
         } catch(UnknownHostException e){
             System.out.println("Host ID not found!");
             System.exit(1);
-            //look up exception and try to get better way to deal wtih it
         }
         run();
     } 
@@ -30,55 +29,60 @@ private static void run(){
     String amount;
     String currency;
     String convertTo;
-    double Euro;
-    double USD;
-    double GBP;
-    double CNY;
 
     try{
-        dgramSocket = new DatagramSocket(); //Step 1
-        //Set up stream for keyboard entry
-        BufferedReader userEntry = new BufferedReader(
-            new InputStreamReader(System.in));
+        dgramSocket = new DatagramSocket();
+        //Set up stream for user entry
+        BufferedReader userEntry = new BufferedReader(new InputStreamReader(System.in));
         String message = null;
         String response = null;
-//        do{//do while not used for once off
-        //user message input**********
-            System.out.println("Enter amount to be converted: ");
-            amount = userEntry.readLine();
-            System.out.println("Enter currency to be converted: ");
-            currency = userEntry.readLine();
-            System.out.println("What currency to convert to? ");
-            convertTo = userEntry.readLine();
-            
-            message = amount+" "+currency+" "+convertTo;
-// for testing            System.out.println(message);
-            
-//            if (!message.equals("***CLOSE***")){//removing this bc close not rqstd
 
+            do{
+                try{
+            //user message input**********
+                System.out.println("Enter amount to be converted: ");
+                amount = userEntry.readLine();
+                double number = Double.parseDouble(amount);
+                if (number != (double)){
+                    throw UserInputException;      
+            }
+                System.out.println("Enter currency to be converted: ");
+                currency = userEntry.readLine();
+                System.out.println("What currency to convert to? ");
+                convertTo = userEntry.readLine();
+            } 
+            catch (UserInputException e){
+                System.out.println(e.getUserInputException);
+            }
+            message = amount+" "+currency+" "+convertTo;
+//          System.out.println(message); for testing 
+ }while{message.equals(null)};
         //sending user msg and receiving response
             outPacket = new DatagramPacket(
                 message.getBytes(),
                 message.length(),
                 host,
-                PORT); //STEP 2
-            dgramSocket.send(outPacket); //Step 3
-            buffer = new byte[256]; //Step 4
+                PORT); 
+            dgramSocket.send(outPacket);
+            buffer = new byte[256]; 
             inPacket = new DatagramPacket(
                 buffer,
-                buffer.length); //Step 5
-            dgramSocket.receive(inPacket); //Step 6
+                buffer.length); 
+            dgramSocket.receive(inPacket); 
             response = new String(
                 inPacket.getData(),
                 0,
-                inPacket.getLength()); //Step 7
+                inPacket.getLength()); 
             System.out.println("\nSERVER> " +response);      
- //           }
- //       } while (!message.equals("***CLOSE***"));
+
+    }  catch(BindException e){
+        System.out.println("Address already in use");
+        System.out.println("Make sure the server and client programs have been stopped in your IDE"); 
     } catch(IOException e){
+        System.out.println("Unspecified IO Exception in Client, see StackTrace");
         e.printStackTrace();
-        //can leave this as exception handling but he receommedns looking into it more
-    } finally {
+    }
+      finally {
         System.out.println("\n* Closing connection... *");
         dgramSocket.close(); //Step 8
     }
