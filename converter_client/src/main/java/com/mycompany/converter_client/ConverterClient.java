@@ -26,7 +26,7 @@ public class ConverterClient {
     } 
     
 private static void run(){
-    String amount;
+    double amount = 0;
     String currency;
     String convertTo;
 
@@ -36,28 +36,26 @@ private static void run(){
         BufferedReader userEntry = new BufferedReader(new InputStreamReader(System.in));
         String message;
         String response = null;
+
         do{
-            do{
-            //user message input**********
-                System.out.println("Enter amount to be converted: ");
-                amount = userEntry.readLine();
-                try{
-                    double number = Double.parseDouble(amount);
-                    }
-                     catch (NumberFormatException e){
-                         System.out.println("The amount needs to be numeric, please try again");
-                    }
-            }while(amount.equals(null));
-            
-            System.out.println("Enter currency to be converted: ");
-            currency = userEntry.readLine();
-            System.out.println("What currency to convert to? ");
-            convertTo = userEntry.readLine();
-        } while (amount.equals(null) && currency.equals(null) && convertTo.equals(null));
-//          System.out.println(message); for testing 
-//System.out.println(message);
-            message = amount+" "+currency+" "+convertTo;
- 
+        //user message input**********
+            try{
+            System.out.println("Enter amount to be converted: ");
+            amount = Double.parseDouble(userEntry.readLine());
+                }
+                 catch (NumberFormatException e){
+                     System.out.println("The amount needs to be numeric, please try again");
+                }
+        }while(amount==0);
+
+        System.out.println("Enter currency to be converted: ");
+        currency = userEntry.readLine();
+        System.out.println("What currency to convert to? ");
+        convertTo = userEntry.readLine();
+
+        message = amount+" "+currency+" "+convertTo;
+        //      System.out.println(message); for testing 
+           
     //while{message.equals(null)};
         //sending user msg and receiving response
             outPacket = new DatagramPacket(
@@ -75,7 +73,7 @@ private static void run(){
                 inPacket.getData(),
                 0,
                 inPacket.getLength()); 
-            System.out.println("\nSERVER> " +response);      
+            System.out.println(response);      
 
     }  catch(BindException e){
         System.out.println("Address already in use");

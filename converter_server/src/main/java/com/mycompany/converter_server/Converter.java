@@ -61,8 +61,8 @@ public class Converter {
             if (converted == 0){
                 throw new RatesException();
             }
-            
-            convertedInfo =  amount +" "+currency+ " = " +converted+ " " +convertTo;
+            double finalConverted = Math.round(converted * 100.0) / 100.0;
+            convertedInfo =  amount +" "+currency+ " = " +finalConverted+ " " +convertTo;
             
         } catch (NullPointerException e){
             System.out.println("A Null Pointer Exception was thrown. There is no information for the convertor to convert.");

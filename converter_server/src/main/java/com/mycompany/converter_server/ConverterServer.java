@@ -59,8 +59,9 @@ public class ConverterServer {
                 
             //sending response back to client
 //          String test = "foobar";//for testing
-            System.out.println("Message received");
-            messageOut = ("Test message out "+answer+ " and showing msg received: " + messageIn);
+            
+ //           messageOut = ("Test message out "+answer+ " and showing msg received: " + messageIn);
+            messageOut = ("You made this request: " +messageIn+ "\n According to our rates: " +answer);
             //***NEEDS COMMENTING
             outPacket = new DatagramPacket(
                 messageOut.getBytes(),
