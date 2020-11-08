@@ -14,7 +14,7 @@ public class RatesException extends Exception {
     protected String msg;
     
     public RatesException(){
-        this.msg="Conversion rates not available!";
+        this.msg="Sorry, conversion rates are not available for this exchange";
     }
     
     public RatesException (String msg){

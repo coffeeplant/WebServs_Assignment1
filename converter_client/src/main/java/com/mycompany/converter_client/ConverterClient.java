@@ -16,7 +16,7 @@ public class ConverterClient {
     private static byte[] buffer;
     
     public static void main (String[] args){
-        try {
+        try {//starting connectoin with server
             host = InetAddress.getLocalHost();
         } catch(UnknownHostException e){
             System.out.println("Host ID not found!");
@@ -39,7 +39,7 @@ private static void run(){
 
         do{
         //user message input**********
-            try{
+            try{//catches if user put types in a string instead of number
             System.out.println("Enter amount to be converted: ");
             amount = Double.parseDouble(userEntry.readLine());
                 }
@@ -56,24 +56,20 @@ private static void run(){
         message = amount+" "+currency+" "+convertTo;
         //      System.out.println(message); for testing 
            
-    //while{message.equals(null)};
         //sending user msg and receiving response
-            outPacket = new DatagramPacket(
-                message.getBytes(),
-                message.length(),
-                host,
-                PORT); 
-            dgramSocket.send(outPacket);
-            buffer = new byte[256]; 
-            inPacket = new DatagramPacket(
-                buffer,
-                buffer.length); 
-            dgramSocket.receive(inPacket); 
-            response = new String(
-                inPacket.getData(),
-                0,
-                inPacket.getLength()); 
-            System.out.println(response);      
+        //initialise outgoing packet
+        outPacket = new DatagramPacket(message.getBytes(),message.length(),host,PORT); 
+        //send to socket
+        dgramSocket.send(outPacket);
+        //start buffer to receive response
+        buffer = new byte[256];
+        //initialise incoming packet  
+        inPacket = new DatagramPacket(buffer,buffer.length);
+        // receive response
+        dgramSocket.receive(inPacket);
+        //initialise response
+        response = new String(inPacket.getData(),0,inPacket.getLength());
+        System.out.println(response);      
 
     }  catch(BindException e){
         System.out.println("Address already in use");

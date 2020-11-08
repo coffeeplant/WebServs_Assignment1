@@ -33,18 +33,21 @@ public class ConverterServer {
             String[] sp;
             List<String> clientInput= new ArrayList();
             Converter conv = new Converter();
-//          *****NEEDS COMMENTING
+//          //initialising array to receve incoming msg
             buffer = new byte[256];
+            //initilaising packet
             inPacket = new DatagramPacket(buffer, buffer.length); 
+            //receiving packet
             dgramSocket.receive(inPacket);
+            //saving client address and port for return msg. 
             InetAddress clientAddress = inPacket.getAddress();
             int clientPort = inPacket.getPort();
+            //message received
             messageIn = new String(inPacket.getData(), 0, inPacket.getLength());
             
-            //convert string to String[] using split
+            //convert string received to a String[] using split
 //          String messageIn = new String("10 USD CNY");  //for testing 
             sp = messageIn.split("\\s");//regular expression for whitespace/comma as delimiter
-            
             //convert split[] to ArrayList
             clientInput = Arrays.asList(sp);
 //                for (int i = 0; i < clientInput.size(); i++) {
@@ -59,15 +62,11 @@ public class ConverterServer {
                 
             //sending response back to client
 //          String test = "foobar";//for testing
-            
  //           messageOut = ("Test message out "+answer+ " and showing msg received: " + messageIn);
             messageOut = ("You made this request: " +messageIn+ "\n According to our rates: " +answer);
-            //***NEEDS COMMENTING
-            outPacket = new DatagramPacket(
-                messageOut.getBytes(),
-                messageOut.length(),
-                clientAddress,
-                clientPort);
+            //sends messageOut string to packet
+            outPacket = new DatagramPacket(messageOut.getBytes(),messageOut.length(), clientAddress, clientPort);
+            //sending packet
             dgramSocket.send(outPacket);
             } catch(IOException e){
                 System.out.println("IO Exception in Server");
